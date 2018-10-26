@@ -4,22 +4,24 @@
 #define _QW 0
 #define _GM 1
 #define _FN 2
-#define _ST 3
+#define _AJ 3
 
 enum {
-  TD_HOME= 0,
-  TD_GAME= 1,
+  TD_GAME= 0,
+  TD_HOME= 1,
 };
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_HOME]  = ACTION_TAP_DANCE_DUAL_ROLE(KC_RALT, _QW),
-  [TD_GAME]  = ACTION_TAP_DANCE_DUAL_ROLE(KC_RGUI, _GM)
+  // Tap once for Right GUI key, tap twice to switch to Gaming Layer
+  [TD_GAME]  = ACTION_TAP_DANCE_DUAL_ROLE(KC_RGUI, _GM),
+  // Tap once for Right Alt key, tap twice to switch to QWERTY layer
+  [TD_HOME]  = ACTION_TAP_DANCE_DUAL_ROLE(KC_RALT, _QW)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-  /* Qwerty
+  /* _QW Qwerty Default Layer
    * ,-----------------------------------------------------------------------------------------.
    * | ` ~ |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |   Bkspc   |
    * |-----------------------------------------------------------------------------------------+
@@ -29,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |-----------------------------------------------------------------------------------------+
    * | Shift     |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  | RSh |  U  | DEL |
    * |-----------------------------------------------------------------------------------------+
-   * | Ctrl |  OS   |  Alt  |              Space                | RAlt | OS  |  L  |  D  |  R  |
+   * | Ctrl |  OS   |  Alt  |              Space                | OS/GM | AJ |  L  |  D  |  R  |
    * `-----------------------------------------------------------------------------------------'
    */
 
@@ -38,10 +40,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
       MO(_FN), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
       KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_UP, KC_DEL,
-      KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_SPC, KC_SPC, TD(TD_GAME), MO(_ST), KC_LEFT, KC_DOWN, KC_RIGHT
+      KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_SPC, KC_SPC, TD(TD_GAME), MO(_AJ), KC_LEFT, KC_DOWN, KC_RIGHT
       ),
 
-  /* Qwerty Gaming Layer
+  /* _GM Gaming Layer
    * ,-----------------------------------------------------------------------------------------.
    * | Esc |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  0  |  -  |  =  |   Bkspc   |
    * |-----------------------------------------------------------------------------------------+
@@ -51,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |-----------------------------------------------------------------------------------------+
    * | Shift     |  Z  |  X  |  C  |  V  |  B  |  N  |  M  |  ,  |  .  |  /  | RSh |  U  | DEL |
    * |-----------------------------------------------------------------------------------------+
-   * | Ctrl |  NO  |  Alt  |              Space                | RAlt | OS   |  L  |  D  |  R  |
+   * | Ctrl |  FN  |  Alt  |              Space                | ALT/GM | AJ |  L  |  D  |  R  |
    * `-----------------------------------------------------------------------------------------'
    */
 
@@ -60,20 +62,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
       MO(_FN), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
       KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, KC_UP, KC_DEL,
-      KC_LCTL, MO(_FN), KC_LALT, KC_SPC, KC_SPC, KC_SPC, TD(TD_HOME), MO(_ST), KC_LEFT, KC_DOWN, KC_RIGHT
+      KC_LCTL, MO(_FN), KC_LALT, KC_SPC, KC_SPC, KC_SPC, TD(TD_HOME), MO(_AJ), KC_LEFT, KC_DOWN, KC_RIGHT
       ),
 
-  /* FN (backtick/lower) Layer
+  /* _FN Function Layer
    * ,-----------------------------------------------------------------------------------------.
-   * | `   |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |           |
+   * | CAPS |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |          |
    * |-----------------------------------------------------------------------------------------+
-   * |        |RBB T|RGB M| Hue+| Hue-| Sat+| Sat-| Val+| Val-|     |     |      |      |      |
+   * |        |     |  U  |     |     |     |     |     |     |     |     |      |      |      |
    * |-----------------------------------------------------------------------------------------+
-   * |         | BL T| BL M| BL+ | BL- |     |     |     |     |     |     |     |             |
+   * |         |  L  |  D  |  R  |     |     |     |     |     |     |     |     | PLAY/PAUSE  |
    * |-----------------------------------------------------------------------------------------+
-   * |           |     |     |     |     |     |     |     |     |     |     |     |     |     |
+   * |           |     |     |     |     |     |     |     |     |     |     |     | MAX | TASK|
    * |-----------------------------------------------------------------------------------------+
-   * |      |       |       |                                   |     |      |     |     |     |
+   * |      |       |       |                                   |     |      | PDSK| MIN | NDSK|
    * `-----------------------------------------------------------------------------------------'
    */
 
@@ -81,21 +83,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_CAPS,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, _______, _______,
       _______, _______, KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
       _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______, _______, _______, _______, _______, _______, _______, _______, KC_MPLY,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_MUTE,
-      _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT 
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LGUI(KC_UP), LCTL(S(KC_ESC)),
+      _______, _______, _______, _______, _______, _______, _______, _______, LCTL(LGUI(KC_LEFT)), LGUI(KC_DOWN), LCTL(LGUI(KC_RIGHT))  
       ),
 
-        /* Setting / ADJUST Layer
+  /* _AJ Adjust and Media Layer
    * ,-----------------------------------------------------------------------------------------.
-   * | `   |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |           |
+   * | CAPS |  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 | F11 | F12 |  RESET   |
    * |-----------------------------------------------------------------------------------------+
    * |        |RBB T|RGB M| Hue+| Hue-| Sat+| Sat-| Val+| Val-|     |     |      |      |      |
    * |-----------------------------------------------------------------------------------------+
-   * |         | BL T| BL M| BL+ | BL- |     |     |     |     |     |     |     |             |
+   * |         | BL T| BL M| BL+ | BL- |     |     |     |     |     |     |     | PLAY/PAUSE  |
    * |-----------------------------------------------------------------------------------------+
-   * |           |     |     |     |     |     |     |     |     |     |     |     |     |     |
+   * |           |     |     |     |     |     |     |     |     |     |     |     |VOLUP| MUTE|
    * |-----------------------------------------------------------------------------------------+
-   * |      |       |       |                                   |     |      |     |     |     |
+   * |      |       |       |                                   |     |      |PREV |VOLDN| NEXT|
    * `-----------------------------------------------------------------------------------------'
    */
 
@@ -103,8 +105,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_CAPS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10, KC_F11, KC_F12, _______, RESET,
       _______, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, _______, _______, _______,
       _______, BL_TOGG, BL_STEP, BL_INC,  BL_DEC, _______, _______, _______, _______, _______, _______,  _______, KC_MPLY,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, LGUI(KC_UP), LCTL(S(KC_ESC)),
-      _______, _______, _______, _______, _______, _______, _______, _______, LCTL(LGUI(KC_LEFT)), LGUI(KC_DOWN), LCTL(LGUI(KC_RIGHT)) 
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLU, KC_MUTE,
+      _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
       )
 
 
