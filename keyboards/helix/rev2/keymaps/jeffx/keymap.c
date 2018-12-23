@@ -27,6 +27,7 @@ extern uint8_t is_master;
 enum layer_number {
     _QWERTY = 0,
     _LOWER,
+    _NUMS,
     _RAISE,
     _FUNC,
     _ADJUST
@@ -35,9 +36,9 @@ enum layer_number {
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
+  NUMS,
   RAISE,
   FUNC,
-  NUMLOCK,
   ADJUST,
   BACKLIT,
   RGBRST
@@ -86,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                           KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
     KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                           KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,  \
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                           KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
-    ADJUST,  KC_LGUI, KC_CAPS, TG(_LOWER), FUNC,    KC_LALT,  KC_SPC,       LOWER,  RAISE,   KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+    ADJUST,  KC_LGUI, KC_LALT, KC_CAPS, FUNC,    NUMS,    KC_SPC,        LOWER,  RAISE,   KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
 ),
 
   /* LOWER
@@ -101,6 +102,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * '--------------------------------------------------------------'    '--------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT( \
+    KC_GRV,  _______, _______, _______, _______, _______,                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
+    _______, _______, _______, _______, _______, _______,                        _______, KC_MINS, KC_EQL,  _______, KC_QUOT, _______, \
+    _______, _______, _______, _______, _______, _______,                        _______, _______, KC_LBRC, KC_RBRC, KC_BSLS, _______, \
+    _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______ \
+),
+
+
+  /* NUMS
+ * .-----------------------------------------------------.                      .-----------------------------------------------------.
+ * | TAB    | 1      | 2      | 3      | 4      | 5      |                      | 6      | 7      | 8      | 9      | 0      | BACKSP |
+ * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+-----------------|
+ * | LCTRL  | A      | S      | D      | F      | G      |                      | H      | J      | K      | L      | ;      | ENTER  |
+ * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+-----------------+--------|
+ * | LSHIFT | Z      | X      | C      | V      | B      |                      | N      | M      | ,      | .      | /      | RSHIFT |
+ * |--------+--------+--------+--------+--------+--------+--------.    .--------+--------+--------+--------------------------+--------|
+ * | ESC    | OS     | ALT    | EISU   | LOWER  | ASD    | SPACE  |    | LOWER  | RAISE  | KANA   | LEFT   | DOWN   | UP     | RSHIFT |
+ * '--------------------------------------------------------------'    '--------------------------------------------------------------'
+ */
+[_NUMS] = LAYOUT( \
     KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                           KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
     _______, _______, _______, _______, _______, _______,                        _______, KC_MINS, KC_EQL,  _______, KC_QUOT, _______, \
     _______, _______, _______, _______, _______, _______,                        _______, _______, KC_LBRC, KC_RBRC, KC_BSLS, _______, \
@@ -189,6 +209,14 @@ void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+      case NUMS:
+      if (record->event.pressed) {
+        layer_on(_NUMS);
+      } else {
+        layer_off(_NUMS);
+      }
+      return false;
+      break;
     case LOWER:
       if (record->event.pressed) {
           //not sure how to have keyboard check mode and set it to a variable, so my work around
@@ -328,6 +356,7 @@ void matrix_update(struct CharacterMatrix *dest,
 
 //assign the right code to your layers for OLED display
 #define L_BASE 0
+#define L_NUMS (1<<_NUMS)
 #define L_LOWER (1<<_LOWER)
 #define L_RAISE (1<<_RAISE)
 #define L_FUNC (1<<_FUNC)
@@ -368,6 +397,9 @@ void render_status(struct CharacterMatrix *matrix) {
     switch (layer_state) {
         case L_BASE:
            matrix_write_P(matrix, PSTR("Default"));
+           break;
+        case L_NUMS:
+           matrix_write_P(matrix, PSTR("Numbers"));
            break;
         case L_RAISE:
            matrix_write_P(matrix, PSTR("Raise"));
