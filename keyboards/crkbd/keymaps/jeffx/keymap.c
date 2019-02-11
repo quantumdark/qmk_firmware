@@ -22,15 +22,13 @@ extern uint8_t is_master;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _NUMS 1
-#define _LOWER 2
-#define _RAISE 3
-#define _FUNC 4
+#define _LOWER 1
+#define _RAISE 2
+#define _FUNC 3
 #define _ADJUST 16
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
-  NUMS,
   LOWER,
   RAISE,
   FUNC,
@@ -45,7 +43,6 @@ enum macro_keycodes {
 
 #define KC______ KC_TRNS
 #define KC_XXXXX KC_NO
-#define KC_NUMS  NUMS
 #define KC_LOWER LOWER
 #define KC_RAISE RAISE
 #define KC_FUNC  FUNC
@@ -72,55 +69,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LSFT,     Z,     X,     C,     V,     B,                      N,     M,  COMM,   DOT,  SLSH,  RSFT,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  NUMS,   SPC,    LOWER, RAISE, FUNC \
-                              //`--------------------'  `--------------------'
-  ),
-
-  [_NUMS] = LAYOUT_kc( \
-  //,-----------------------------------------.                ,-----------------------------------------.
-        GRV,     1,     2,     3,     4,     5,                      6,     7,     8,     9,     0,  BSPC,\
-  //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                  _____, _____, _____, _____,  QUOT,   ENT,\
-  //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  _____, _____, _____, _____, _____,  RSFT,\
-  //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  NUMS,   SPC,    LOWER, RAISE, FUNC \
+                                   LGUI,  LOWER,   SPC,    RAISE, FUNC,  DEL \
                               //`--------------------'  `--------------------'
   ),
 
   [_LOWER] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-        GRV,     Q,     W,     E,     R,     T,                      6,     7,     8,     9,     0,  BSPC,\
+        ESC,     1,     2,     3,     4,     5,                      6,     7,     8,     9,     0,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                  _____,  MINS,   EQL,  QUOT,  DQUO,   ENT,\
+       LCTL, _____, _____, _____, _____, _____,                  _____, _____, _____, _____, _____,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  _____, _____,  LBRC,  RBRC,  BSLS,  RSFT,\
+       LSFT, _____, _____, _____, _____, _____,                  _____, _____, _____, _____, _____,  RSFT,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  NUMS,   SPC,    LOWER, RAISE, FUNC \
+                                   LGUI,  LOWER,   SPC,    RAISE, FUNC,  DEL \
                               //`--------------------'  `--------------------'
   ),
 
   [_RAISE] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-      TILDE,  EXLM,    AT,  HASH,   DLR,  PERC,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,  BSPC,\
+        GRV,  EXLM,    AT,  HASH,   DLR,  PERC,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, XXXXX, XXXXX, XXXXX, XXXXX, XXXXX,                  _____,  UNDS,  PLUS, _____,  DQUO,   ENT,\
+       LCTL, _____, _____, _____, _____, _____,                   MINS,  UNDS,   EQL,  PLUS,  QUOT,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, XXXXX, XXXXX, XXXXX, XXXXX, XXXXX,                  _____, _____,  LCBR,  RCBR,  PIPE,  RSFT,\
+       LSFT, _____, _____, _____, _____, _____,                  XXXXX, XXXXX,  LBRC,  RBRC,  BSLS,  RSFT,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  NUMS,   SPC,    LOWER, RAISE, FUNC \
+                                   LGUI,  LOWER,   SPC,    RAISE, FUNC,  DEL \
                               //`--------------------'  `--------------------'
   ),
 
   [_FUNC] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-        ESC,    F1,    F2,    F3,    F4,    F5,                      6,     7,     8,     9,     0,   DEL,\
+      TILDE,    F1,    F2,    F3,    F4,    F5,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,   DEL,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL,    F6,    F7,    F8,    F9,   F10,                    F6,     F7,   EQL,    F9,    F9,   ENT,\
+       LCTL,    F6,    F7,    F8,    F9,   F10,                   LEFT,  DOWN,    UP, RIGHT,  DQUO,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT,   F11,   F12,     1,     2,     3,                   F16,      1,  LEFT,  DOWN,    UP, RIGHT,\
+       LSFT, XXXXX, XXXXX, XXXXX,   F11,   F12,                  XXXXX, XXXXX,  LCBR,  RCBR,  PIPE,  RSFT,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  LALT,   SPC,    LOWER, RAISE, FUNC \
+                                   LGUI,  LALT,   SPC,    RAISE,  FUNC,  DEL \
                               //`--------------------'  `--------------------'
   ),
 
@@ -132,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LMOD,  LHUD,  LSAD,  LVAD, XXXXX, XXXXX,                  XXXXX, XXXXX, XXXXX, XXXXX, XXXXX, XXXXX,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  NUMS,   SPC,    LOWER, RAISE, FUNC \
+                                   LGUI, XXXXX,   SPC,    RAISE,  FUNC,  DEL \
                               //`--------------------'  `--------------------'
   )
 };
@@ -246,14 +231,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case NUMS:
-        if (record->event.pressed) {
-          layer_on(_NUMS);
-        } else {
-          layer_off(_NUMS);
-        }
-        return false;
-        break;
     case FUNC:
         if (record->event.pressed) {
           layer_on(_FUNC);
