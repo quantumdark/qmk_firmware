@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-       TILDE,  EXLM,    AT,  HASH,   DLR,  PERC,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,  BSPC,\
+        GRV,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LCTL, _____, _____, _____, _____, _____,                   UNDS,  MINS,   EQL,  PLUS,  QUOT,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
@@ -99,11 +99,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_FUNC] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-        ESC,    F1,    F2,    F3,    F4,    F5,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,  BSPC,\
+      TILDE,  EXLM,    AT,  HASH,   DLR,  PERC,                   CIRC,  AMPR,  ASTR,  LPRN,  RPRN,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL,    F6,    F7,    F8,    F9,   F10,                   LEFT,  DOWN,    UP, RIGHT,  DQUO,   ENT,\
+       LCTL,    F1,    F2,    F3,    F4,    F5,                   LEFT,  DOWN,    UP, RIGHT,  DQUO,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, XXXXX, XXXXX, XXXXX,   F11,   F12,                  XXXXX, XXXXX,  LCBR,  RCBR,  PIPE,   DEL,\
+       LSFT,    F6,    F7,    F8,    F9,   F10,                    F11,   F12,  LCBR,  RCBR,  PIPE,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                                    LGUI,  LALT,   SPC,    RAISE,  FUNC,  ESC \
                               //`--------------------'  `--------------------'
