@@ -90,16 +90,17 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
-  uint8_t oneshot_layer = get_oneshot_layer();
-
-  /* Always cancel one-shot layer when another key gets pressed */
-  if (record->event.pressed && get_oneshot_layer_state() != ONESHOT_OTHER_KEY_PRESSED)
-    clear_oneshot_layer_state(ONESHOT_START);
 
   switch (keycode) {
+    case KC_TRNS:
+    case KC_NO:
+      /* Always cancel one-shot layer when another key gets pressed */
+      if (record->event.pressed && is_oneshot_layer_active())
+      clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+      return true;
     case RESET:
       /* Don't allow reset from oneshot layer state */
-      if (record->event.pressed && oneshot_layer == 1)
+      if (record->event.pressed && is_oneshot_layer_active())
         return false;
     default:
       return true;
