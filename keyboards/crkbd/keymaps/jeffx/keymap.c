@@ -22,13 +22,15 @@ extern uint8_t is_master;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
-#define _FUNC 3
+#define _GAME 1
+#define _LOWER 2
+#define _RAISE 3
+#define _FUNC 4
 #define _ADJUST 16
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
+  GAME,
   LOWER,
   RAISE,
   FUNC,
@@ -43,6 +45,8 @@ enum macro_keycodes {
 
 #define KC______ KC_TRNS
 #define KC_XXXXX KC_NO
+#define KC_GAME  GAME
+#define KC_QWERTY QWERTY
 #define KC_LOWER LOWER
 #define KC_RAISE RAISE
 #define KC_FUNC  FUNC
@@ -56,12 +60,22 @@ enum macro_keycodes {
 #define KC_LVAI  RGB_VAI
 #define KC_LVAD  RGB_VAD
 #define KC_LMOD  RGB_MOD
-#define KC_CTLTB CTL_T(KC_TAB)
-#define KC_GUIAL GUI_T(KC_LALT)
-#define KC_ALTKN ALT_T(KC_LANG1)
+#define KC_CTLESC CTL_T(KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc( \
+  //,-----------------------------------------.                ,-----------------------------------------.
+        TAB,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
+  //|------+------+------+------+------+------|                |------+------+------+------+------+------|
+      CTLESC,     A,     S,     D,     F,     G,                      H,     J,     K,     L,  SCLN,   ENT,\
+  //|------+------+------+------+------+------|                |------+------+------+------+------+------|
+       LSFT,     Z,     X,     C,     V,     B,                      N,     M,  COMM,   DOT,  SLSH,   DEL,\
+  //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
+                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, GAME \
+                              //`--------------------'  `--------------------'
+  ),
+
+  [_GAME] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
         TAB,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
@@ -69,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LSFT,     Z,     X,     C,     V,     B,                      N,     M,  COMM,   DOT,  SLSH,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI, LOWER,   SPC,    RAISE, FUNC,  ESC \
+                                   LALT, LOWER,   SPC,    RAISE,  FUNC, QWERTY \
                               //`--------------------'  `--------------------'
   ),
 
@@ -77,11 +91,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------.                ,-----------------------------------------.
         GRV,     1,     2,     3,     4,     5,                      6,     7,     8,     9,     0,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                  _____, _____, _____, _____, _____,   ENT,\
+       LCTL, _____, _____, _____, _____, _____,                  _____,  MINS,   EQL, _____, _____,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  _____, _____, _____, _____, _____,   DEL,\
+       LSFT, _____, _____, _____, _____, _____,                  _____, _____,  LBRC,  RBRC,  BSLS,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI, LOWER,   SPC,    RAISE, FUNC,  ESC \
+                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, LALT \
                               //`--------------------'  `--------------------'
   ),
 
@@ -89,11 +103,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------.                ,-----------------------------------------.
         GRV,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                   UNDS,  MINS,   EQL,  PLUS,  QUOT,   ENT,\
+       LCTL, _____, _____, _____, _____, _____,                  _____,  UNDS,  PLUS, _____,  QUOT,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  XXXXX, XXXXX,  LBRC,  RBRC,  BSLS,   DEL,\
+       LSFT, _____, _____, _____, _____, _____,                  XXXXX, XXXXX,  LCBR,  RCBR,  PIPE,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI, LOWER,   SPC,    RAISE, FUNC,  ESC \
+                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, LALT \
                               //`--------------------'  `--------------------'
   ),
 
@@ -103,9 +117,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LCTL,    F1,    F2,    F3,    F4,    F5,                   LEFT,  DOWN,    UP, RIGHT,  DQUO,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT,    F6,    F7,    F8,    F9,   F10,                    F11,   F12,  LCBR,  RCBR,  PIPE,   DEL,\
+       LSFT,    F6,    F7,    F8,    F9,   F10,                    F11,   F12, XXXXX, XXXXX, XXXXX,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI,  LALT,   SPC,    RAISE,  FUNC,  ESC \
+                                   LGUI,  LALT,   SPC,    RAISE,  FUNC, LALT \
                               //`--------------------'  `--------------------'
   ),
 
@@ -168,7 +182,7 @@ void matrix_scan_user(void) {
 }
 
 void matrix_render_user(struct CharacterMatrix *matrix) {
-  if (is_master) {
+  //if (is_master) {
     // If you want to change the display of OLED, you need to change here
     matrix_write_ln(matrix, read_layer_state());
     matrix_write_ln(matrix, read_keylog());
@@ -176,9 +190,9 @@ void matrix_render_user(struct CharacterMatrix *matrix) {
     //matrix_write_ln(matrix, read_mode_icon(keymap_config.swap_lalt_lgui));
     //matrix_write_ln(matrix, read_host_led_state());
     //matrix_write_ln(matrix, read_timelog());
-  } else {
-    matrix_write(matrix, read_logo());
-  }
+  //} else {
+   // matrix_write(matrix, read_logo());
+  //}
 }
 
 void matrix_update(struct CharacterMatrix *dest, const struct CharacterMatrix *source) {
@@ -208,6 +222,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QWERTY:
       if (record->event.pressed) {
         persistent_default_layer_set(1UL<<_QWERTY);
+      }
+      return false;
+      break;
+    case GAME:
+      if (record->event.pressed) {
+        persistent_default_layer_set(1UL<<_GAME);
       }
       return false;
       break;
