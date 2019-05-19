@@ -25,9 +25,9 @@ extern uint8_t is_master;
 // entirely and just use numbers.
 #define _QWERTY 0
 #define _GAME 1
-#define _LOWER 2
-#define _RAISE 3
-#define _FUNC 4
+#define _LOWER 3
+#define _RAISE 4
+#define _FUNC 5
 #define _ADJUST 16
 
 enum custom_keycodes {
@@ -38,7 +38,9 @@ enum custom_keycodes {
   FUNC,
   ADJUST,
   BACKLIT,
-  RGBRST
+  RGBRST,
+  MBTN1,
+  SCRL
 };
 
 enum macro_keycodes {
@@ -64,16 +66,19 @@ enum macro_keycodes {
 #define KC_LMOD  RGB_MOD
 #define KC_CTLESC CTL_T(KC_ESC)
 
+#define KC_MBTN1  MBTN1
+#define KC_SCRL   SCRL
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc( \
   //,-----------------------------------------.                ,-----------------------------------------.
-        TAB,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  LTOG,\
+        TAB,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-      CTLESC,     A,     S,     D,     F,     G,                      H,     J,     K,     L,  SCLN,   LMOD,\
+     CTLESC,     A,     S,     D,     F,     G,                      H,     J,     K,     L,  SCLN,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT,     Z,     X,     C,     V,     B,                      N,     M,  COMM,   DOT,  SLSH,   RST,\
+       LSFT,     Z,     X,     C,     V,     B,                      N,     M,  COMM,   DOT,  SLSH,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, LRST \
+                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, GAME \
                               //`--------------------'  `--------------------'
   ),
 
@@ -93,11 +98,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------.                ,-----------------------------------------.
         GRV,     1,     2,     3,     4,     5,                      6,     7,     8,     9,     0,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                  _____,  MINS,   EQL, _____, _____,   ENT,\
+       LCTL, _____, _____, _____, _____,  BTN1,                  _____,     4,     5,     6, _____,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  _____, _____,  LBRC,  RBRC,  BSLS,   DEL,\
+       LSFT, _____, _____, _____, _____,  BTN2,                  _____,     1,     2,     3, _____,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
-                                   LGUI, LOWER,   SPC,    RAISE,  FUNC, LALT \
+                                   LGUI, LOWER,   SPC,    RAISE,  FUNC,    0 \
                               //`--------------------'  `--------------------'
   ),
 
@@ -105,9 +110,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------.                ,-----------------------------------------.
         GRV,     Q,     W,     E,     R,     T,                      Y,     U,     I,     O,     P,  BSPC,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LCTL, _____, _____, _____, _____, _____,                  _____,  UNDS,  PLUS, _____,  QUOT,   ENT,\
+       LCTL, _____, _____, _____, _____, _____,                   MINS,  UNDS,   EQL,  PLUS,  QUOT,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT, _____, _____, _____, _____, _____,                  XXXXX, XXXXX,  LCBR,  RCBR,  PIPE,   DEL,\
+       LSFT, _____, _____, _____, _____, _____,                  XXXXX, XXXXX,  LBRC,  RBRC,  BSLS,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                                    LGUI, LOWER,   SPC,    RAISE,  FUNC, LALT \
                               //`--------------------'  `--------------------'
@@ -119,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
        LCTL,    F1,    F2,    F3,    F4,    F5,                   LEFT,  DOWN,    UP, RIGHT,  DQUO,   ENT,\
   //|------+------+------+------+------+------|                |------+------+------+------+------+------|
-       LSFT,    F6,    F7,    F8,    F9,   F10,                    F11,   F12, XXXXX, XXXXX, XXXXX,   DEL,\
+       LSFT,    F6,    F7,    F8,    F9,   F10,                    F11,   F12,  LCBR,  RCBR,  PIPE,   DEL,\
   //|------+------+------+------+------+------+------|  |------+------+------+------+------+------+------|
                                    LGUI,  LALT,   SPC,    RAISE,  FUNC, LALT \
                               //`--------------------'  `--------------------'
@@ -288,6 +293,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
+            // Needs pointing device included
+    // case MBTN1:
+    //   currentReport = pointing_device_get_report();
+    //   if (record->event.pressed) {
+    //     currentReport.buttons |= MOUSE_BTN1;
+    //   }
+    //   else {
+    //     currentReport.buttons &= ~MOUSE_BTN1;
+    //   }
+    //   pointing_device_set_report(currentReport);
+    //   pointing_device_send();
+    //   return false;
+    //   break;
+    // case MBTN2:
+    //   currentReport = pointing_device_get_report();
+    //   if (record->event.pressed) {
+    //     currentReport.buttons |= MOUSE_BTN2;
+    //   }
+    //   else {
+    //     currentReport.buttons &= ~MOUSE_BTN2;
+    //   }
+    //   pointing_device_set_report(currentReport);
+    //   pointing_device_send();
+    //   return false;
+    //   break;
+    // case SCRL:
+    //   if (record->event.pressed) {
+    //     isScrollMode = true;
+    //   }
+    //   else {
+    //     isScrollMode = false;
+    //   }
+    //   return false;
+    //   break;
   }
   return true;
 }
